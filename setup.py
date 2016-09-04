@@ -40,14 +40,14 @@ setup(
 	setup_requires			= ['pytest-runner'],
 	tests_require			= ['pytest'],
 	test_suite				= "tests",
-	classifiers=[
+	classifiers				= [
 		'Development Status :: 3 - Alpha',
 		'License :: OSI Approved :: MIT License',
 		'Natural Language :: English',
 		'Programming Language :: Python :: 3.0',
 	],
-	# install_requires = [],
-	# package_data = {},
+	install_requires = [],
+	package_data = {},
 	cmdclass = {
 		'clean': CleanCommand,
 	},
