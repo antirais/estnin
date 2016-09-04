@@ -152,8 +152,8 @@ class estnin(object):
     def checksum(self):
         return self._checksum
 
-    def sex(self, male='M', female='F'):
-        return male if self.is_male else female
+#    def sex(self, male='M', female='F'):
+#        return male if self.is_male else female
 
     @property
     def date(self):
