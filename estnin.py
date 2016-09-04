@@ -12,7 +12,7 @@ __author__ = "Anti Räis"
 class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
     def __str__(self):
         century = self.century
-        date = "{:02d}{:02d}{:02d}".format(self.date.year%100, self.date.month, self.date.day)
+        date = '{:02d}{:02d}{:02d}'.format(self.date.year%100, self.date.month, self.date.day)
         sequence = self.sequence
         checksum = self.checksum
         return '{c:d}{d}{s:03d}{cs:d}'.format(c=century, d=date, s=sequence, cs=checksum)
@@ -30,11 +30,11 @@ class estnin(object):
         try:
             estnin = int(estnin)
         except ValueError as e:
-            raise ValueError("not an integer")
+            raise ValueError('not an integer')
 
         estnin = str(estnin)
         if len(estnin) != 11:
-            raise ValueError("invalid length")
+            raise ValueError('invalid length')
 
         return _estnin(
             self._validate_century(estnin[0]),
@@ -47,7 +47,7 @@ class estnin(object):
         century = int(century)
 
         if century < 1 or century > 8:
-            raise ValueError("invalid century")
+            raise ValueError('invalid century')
 
         return century
 
@@ -83,7 +83,7 @@ class estnin(object):
         checksum = self._calculate_checksum(checksum)
 
         if orig_checksum != checksum:
-            raise ValueError("invalid checksum")
+            raise ValueError('invalid checksum')
 
         return orig_checksum
 
@@ -120,7 +120,7 @@ class estnin(object):
         year = int(value)
 
         if year < 1800 or year >= 2200:
-            raise ValueError("invalid year")
+            raise ValueError('invalid year')
 
         date = self._estnin.date.replace(year=year)
         century = (year-1800)//100*2+1
@@ -143,7 +143,7 @@ class estnin(object):
             self._estnin = self._estnin._replace(sequence=sequence)
             self._update_checksum()
         except ValueError:
-            raise ValueError("invalid sequence")
+            raise ValueError('invalid sequence')
 
     @property
     def checksum(self):
@@ -156,18 +156,16 @@ class estnin(object):
 if __name__ == '__main__':
 
     def print_person(person):
-        print("="*30)
-        print("to str:     %s" % person)
-        print("is male:    %s" % person.is_male)
-        print("is female:  %s" % person.is_female)
-        #print("sex:        %s" % person.sex())
-        print("date:       %s" % person.date)
-        print("year:       %s" % person.year)
-        print("sequence:   %s" % person.sequence)
-        print("checksum:   %s" % person.checksum)
-        #print(person._testnin)
+        print('='*30)
+        print('to str:     %s' % person)
+        print('is male:    %s' % person.is_male)
+        print('is female:  %s' % person.is_female)
+        print('date:       %s' % person.date)
+        print('year:       %s' % person.year)
+        print('sequence:   %s' % person.sequence)
+        print('checksum:   %s' % person.checksum)
 
-    person = estnin("37611050002")
+    person = estnin('37611050002')
     print_person(person)
     #for i in range(1, 9):
     #    person.century = i
