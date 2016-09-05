@@ -58,16 +58,10 @@ class estnin(object):
     def _calculate_checksum(self, estnin):
         _estnin = str(estnin)
 
-        checksum = 0
-        for i, k in zip(_estnin, [1,2,3,4,5,6,7,8,9,1]):
-            checksum += int(i)*k
-        checksum %= 11
+        checksum = sum(int(k)*v for k, v in zip(_estnin, [1,2,3,4,5,6,7,8,9,1])) % 11
 
         if checksum == 10:
-            checksum = 0
-            for i, k in zip(_estnin, [3,4,5,6,7,8,9,1,2,3]):
-                checksum += int(i)*k
-            checksum %= 11
+            checksum = sum(int(k)*v for k, v in zip(_estnin, [3,4,5,6,7,8,9,1,2,3])) % 11
 
             if checksum == 10:
                 checksum = 0
