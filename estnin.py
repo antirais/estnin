@@ -40,19 +40,11 @@ class estnin(object):
 
         estnin = str(estnin)
         return _estnin(
-            self._validate_century(estnin[0]),
+            int(estnin[0]),
             self._validate_date(estnin),
             int(estnin[7:10]),
             self._validate_checksum(estnin),
         )
-
-    def _validate_century(self, century):
-        century = int(century)
-
-        if century < 1 or century > 8:
-            raise ValueError('invalid century')
-
-        return century
 
     def _validate_date(self, estnin):
         birth_year = int(estnin[1:3])+1800+100*((int(estnin[0])-1)//2)
@@ -108,11 +100,18 @@ class estnin(object):
 
     @century.setter
     def century(self, value):
-        century = self._validate_century(value)
-        year = 1800+100*((century-1)//2)+self._estnin.date.year%100
-        date = self._estnin.date.replace(year=year)
-        self._estnin = self._estnin._replace(century=century, date=date)
-        self._update_checksum()
+        try:
+            century = int(value)
+
+            if century < 1 or century > 8:
+                raise
+        except:
+            raise ValueError('invalid century')
+        else:
+            year = 1800+100*((century-1)//2)+self._estnin.date.year%100
+            date = self._estnin.date.replace(year=year)
+            self._estnin = self._estnin._replace(century=century, date=date)
+            self._update_checksum()
 
     @property
     def year(self):

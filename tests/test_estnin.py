@@ -74,6 +74,14 @@ def test_updating_century_property_is_validated():
 
     assert p.century == 1
 
+def test_updating_century_property_type_is_validated():
+    p = estnin(10001010002)
+
+    with pytest.raises(ValueError):
+        p.century = 'x'
+
+    assert p.century == 1
+
 def test_updating_century_property_updates_checksum():
     p = estnin(10001010002)
     p.century = 2
