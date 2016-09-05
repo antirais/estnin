@@ -30,12 +30,9 @@ class estnin(object):
         return str(self._estnin)
 
     def _validate_format(self, estnin):
-        try:
-            estnin = int(estnin)
-        except ValueError as e:
-            raise ValueError('not an integer')
+        estnin = int(estnin)
 
-        if estnin < MIN or estnin > MAX:
+        if not MIN <= estnin <= MAX:
             raise ValueError('invalid value')
 
         estnin = str(estnin)
@@ -61,9 +58,7 @@ class estnin(object):
 
         if checksum == 10:
             checksum = sum(int(k)*v for k, v in zip(_estnin, [3,4,5,6,7,8,9,1,2,3])) % 11
-
-            if checksum == 10:
-                checksum = 0
+            checksum = 0 if checksum == 10 else checksum
 
         return checksum
 
@@ -96,7 +91,7 @@ class estnin(object):
     def century(self, value):
         century = int(value)
 
-        if century < 1 or century > 8:
+        if not 1 <= century <= 8:
             raise ValueError('invalid century')
 
         year = 1800+100*((century-1)//2)+self._estnin.date.year%100
@@ -112,7 +107,7 @@ class estnin(object):
     def year(self, value):
         year = int(value)
 
-        if year < 1800 or year >= 2200:
+        if not 1800 <= year <= 2199:
             raise ValueError('invalid year')
 
         date = self._estnin.date.replace(year=year)
@@ -127,16 +122,13 @@ class estnin(object):
 
     @sequence.setter
     def sequence(self, value):
-        try:
-            sequence = int(value)
+        sequence = int(value)
 
-            if sequence < 0 or sequence > 999:
-                raise ValueError
-
-            self._estnin = self._estnin._replace(sequence=sequence)
-            self._update_checksum()
-        except ValueError:
+        if not 0 <= sequence <= 999:
             raise ValueError('invalid sequence')
+
+        self._estnin = self._estnin._replace(sequence=sequence)
+        self._update_checksum()
 
     @property
     def checksum(self):

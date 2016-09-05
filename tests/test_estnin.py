@@ -72,6 +72,9 @@ def test_updating_century_property_is_validated():
     with pytest.raises(ValueError):
         p.century = 0
 
+    with pytest.raises(ValueError):
+        p.century = 9
+
     assert p.century == 1
 
 def test_updating_century_property_type_is_validated():
