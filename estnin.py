@@ -9,6 +9,9 @@ from collections import namedtuple
 
 __author__ = "Anti Räis"
 
+MIN = 10001010002
+MAX = 89912319991
+
 class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
     def __str__(self):
         century = self.century
@@ -32,10 +35,10 @@ class estnin(object):
         except ValueError as e:
             raise ValueError('not an integer')
 
-        estnin = str(estnin)
-        if len(estnin) != 11:
-            raise ValueError('invalid length')
+        if estnin < MIN or estnin > MAX:
+            raise ValueError('invalid value')
 
+        estnin = str(estnin)
         return _estnin(
             self._validate_century(estnin[0]),
             self._validate_date(estnin),
@@ -178,7 +181,7 @@ if __name__ == '__main__':
     person.year = 2200-1
     print_person(person)
 
-    #print(estnin._calculate_checksum(person))
+    print(estnin._calculate_checksum(MAX))
     #for i in range(10001010000, 10001020000, 10):
     #    r = estnin._calculate_checksum(i)
     #    if r != 0:
