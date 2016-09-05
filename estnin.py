@@ -57,6 +57,12 @@ class estnin(object):
     def __eq__(self, other):
         return int(self) == int(other)
 
+    def __invert__(self):
+        if self.is_male:
+            self.century += 1
+        else:
+            self.century -= 1
+
     def _validate_format(self, estnin):
         estnin = int(estnin)
 
@@ -174,7 +180,6 @@ if __name__ == '__main__':
         print('is male:    %s' % person.is_male)
         print('is female:  %s' % person.is_female)
         print('date:       %s' % person.date)
-        print('age:        %s' % person.age)
         print('year:       %s' % person.year)
         print('sequence:   %s' % person.sequence)
         print('checksum:   %s' % person.checksum)

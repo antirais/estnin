@@ -200,3 +200,10 @@ def test_estnin_has_gt_comparison():
 def test_estnin_has_ge_comparison():
     assert estnin(10001010013) >= estnin(10001010002)
     assert estnin(10001010002) >= estnin(10001010002)
+
+def test_inverting_estnin_changes_sex():
+    person = estnin.create(estnin.MALE, date(2000, 1, 1), 0)
+    assert person.is_male
+
+    ~person
+    assert person.is_female
