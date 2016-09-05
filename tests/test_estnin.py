@@ -180,3 +180,23 @@ def test_date_property_returns_date_obj():
 
 def test_estnin_has_int_representation():
     assert int(estnin(10001010002)) == 10001010002
+
+def test_estnin_has_lt_comparison():
+    assert estnin(10001010002) < estnin(10001010013)
+
+def test_estnin_has_le_comparison():
+    assert estnin(10001010002) <= estnin(10001010013)
+    assert estnin(10001010002) <= estnin(10001010002)
+
+def test_estnin_has_eq_comparison():
+    assert estnin(10001010002) == estnin(10001010002)
+
+def test_estnin_has_ne_comparison():
+    assert estnin(10001010002) != estnin(10001010013)
+
+def test_estnin_has_gt_comparison():
+    assert estnin(10001010013) > estnin(10001010002)
+
+def test_estnin_has_ge_comparison():
+    assert estnin(10001010013) >= estnin(10001010002)
+    assert estnin(10001010002) >= estnin(10001010002)
