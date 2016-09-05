@@ -14,14 +14,11 @@ MAX = 89912319991
 
 class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
     def __str__(self):
-        century = self.century
         date = '{:02d}{:02d}{:02d}'.format(self.date.year%100, self.date.month, self.date.day)
-        sequence = self.sequence
-        checksum = self.checksum
-        return '{c:d}{d}{s:03d}{cs:d}'.format(c=century, d=date, s=sequence, cs=checksum)
+        return '{c:d}{d}{s:03d}{cs:d}'.format(c=self.century, d=date, s=self.sequence, cs=self.checksum)
 
-# estnin e.g Estonian national identity number
 class estnin(object):
+    """Estonian national identity number"""
 
     def __init__(self, estnin):
         self._estnin = self._validate_format(estnin)
