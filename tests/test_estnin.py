@@ -177,3 +177,6 @@ def test_setting_sequence_updates_checksum():
 
 def test_date_property_returns_date_obj():
     assert estnin(37611050002).date == date(1976, 11, 5)
+
+def test_estnin_has_int_representation():
+    assert int(estnin(10001010002)) == 10001010002

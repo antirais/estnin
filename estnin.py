@@ -14,6 +14,9 @@ class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
         date = '{:02d}{:02d}{:02d}'.format(self.date.year%100, self.date.month, self.date.day)
         return '{c:d}{d}{s:03d}{cs:d}'.format(c=self.century, d=date, s=self.sequence, cs=self.checksum)
 
+    def __int__(self):
+        return int(str(self))
+
 class estnin(object):
     """Estonian national identity number"""
 
@@ -41,6 +44,9 @@ class estnin(object):
 
     def __repr__(self):
         return str(self._estnin)
+
+    def __int__(self):
+        return int(self._estnin)
 
     def _validate_format(self, estnin):
         estnin = int(estnin)
@@ -163,26 +169,9 @@ if __name__ == '__main__':
         print('sequence:   %s' % person.sequence)
         print('checksum:   %s' % person.checksum)
 
-    #person = estnin('37611050002')
+    person = estnin(37611050002)
     person = estnin.create(estnin.MALE, datetime.date(1989, 8, 28), 27)
     print_person(person)
 
     person = estnin.create(estnin.MALE, date(1800, 1, 1), 0)
-    print(person)
-    #print(estnin.create(estnin.MALE, datetime.datetime.now(), 1))
-    #for i in range(1, 9):
-    #    person.century = i
-    #    print_person(person)
-
-    #person.century = 1
-    #person.sequence = 27
-    #print_person(person)
-
-    #person.year = 2200-1
-    #print_person(person)
-
-    #print(estnin._calculate_checksum(MAX))
-    #for i in range(10001010000, 10001020000, 10):
-    #    r = estnin._calculate_checksum(i)
-    #    if r != 0:
-    #        print("%s%s" % (str(i)[:-1], r))
+    print_person(person)
