@@ -47,7 +47,8 @@ class estnin(object):
         )
 
     def _validate_date(self, estnin):
-        birth_year = int(estnin[1:3])+1800+100*((int(estnin[0])-1)//2)
+        century = int(estnin[0])
+        birth_year = int(estnin[1:3])+1800+100*((century-1)//2)
         birth_month = int(estnin[3:5])
         birth_day = int(estnin[5:7])
 
