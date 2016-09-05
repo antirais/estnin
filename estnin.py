@@ -9,9 +9,6 @@ from collections import namedtuple
 
 __author__ = "Anti Räis"
 
-MIN = 10001010002
-MAX = 89912319991
-
 class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
     def __str__(self):
         date = '{:02d}{:02d}{:02d}'.format(self.date.year%100, self.date.month, self.date.day)
@@ -20,8 +17,27 @@ class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
 class estnin(object):
     """Estonian national identity number"""
 
+    MIN = 10001010002
+    MAX = 89912319991
+
+    MALE = 0
+    FEMALE = 1
+
     def __init__(self, estnin):
         self._estnin = self._validate_format(estnin)
+
+    @classmethod
+    def create(cls, sex, birth_date, sequence):
+        if not 1800 <= birth_date.year <= 2199:
+            raise ValueError('invalid date')
+
+        if not 0 <= sequence <= 999:
+            raise ValueError('invalid sequence')
+
+        century = ((birth_date.year-1800)//100)*2+1+bool(sex)
+        date = '{:02d}{:02d}{:02d}'.format(birth_date.year%100, birth_date.month, birth_date.day)
+        checksum = cls._calculate_checksum("{}{}{:03d}".format(century, date, sequence))
+        return cls(str(_estnin(century, birth_date, sequence, checksum)))
 
     def __repr__(self):
         return str(self._estnin)
@@ -29,7 +45,7 @@ class estnin(object):
     def _validate_format(self, estnin):
         estnin = int(estnin)
 
-        if not MIN <= estnin <= MAX:
+        if not self.MIN <= estnin <= self.MAX:
             raise ValueError('invalid value')
 
         estnin = str(estnin)
@@ -147,20 +163,25 @@ if __name__ == '__main__':
         print('sequence:   %s' % person.sequence)
         print('checksum:   %s' % person.checksum)
 
-    person = estnin('37611050002')
+    #person = estnin('37611050002')
+    person = estnin.create(estnin.MALE, datetime.date(1989, 8, 28), 27)
     print_person(person)
+
+    person = estnin.create(estnin.MALE, date(1800, 1, 1), 0)
+    print(person)
+    #print(estnin.create(estnin.MALE, datetime.datetime.now(), 1))
     #for i in range(1, 9):
     #    person.century = i
     #    print_person(person)
 
-    person.century = 1
-    person.sequence = 27
-    print_person(person)
+    #person.century = 1
+    #person.sequence = 27
+    #print_person(person)
 
-    person.year = 2200-1
-    print_person(person)
+    #person.year = 2200-1
+    #print_person(person)
 
-    print(estnin._calculate_checksum(MAX))
+    #print(estnin._calculate_checksum(MAX))
     #for i in range(10001010000, 10001020000, 10):
     #    r = estnin._calculate_checksum(i)
     #    if r != 0:

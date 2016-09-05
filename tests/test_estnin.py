@@ -5,10 +5,41 @@
 import os
 import sys
 import pytest
-import datetime
 
 sys.path.insert(0, os.path.abspath('..'))
 from estnin import estnin
+from datetime import date
+
+def test_create_validates_year():
+    with pytest.raises(ValueError):
+        estnin.create(estnin.MALE, date(1799, 1, 1), 0)
+
+    with pytest.raises(ValueError):
+        estnin.create(estnin.MALE, date(2200, 1, 1), 0)
+
+def test_create_validates_sequence():
+    with pytest.raises(ValueError):
+        estnin.create(estnin.MALE, date(1800, 1, 1), -1)
+
+    with pytest.raises(ValueError):
+        estnin.create(estnin.MALE, date(2199, 1, 1), 1000)
+
+def test_create_sets_century():
+    person = estnin.create(estnin.MALE, date(1800, 1, 1), 0)
+    assert person.century == 1
+
+    person = estnin.create(estnin.FEMALE, date(1800, 1, 1), 0)
+    assert person.century == 2
+
+    person = estnin.create(estnin.MALE, date(2100, 1, 1), 0)
+    assert person.century == 7
+
+    person = estnin.create(estnin.FEMALE, date(2100, 1, 1), 0)
+    assert person.century == 8
+
+def test_create_sets_checksum():
+    person = estnin.create(estnin.MALE, date(1800, 1, 1), 0)
+    assert person.checksum == 2
 
 def test_argument_length_is_checked():
     with pytest.raises(ValueError):
@@ -39,7 +70,7 @@ def test_date_day_value_is_checked():
 
 def test_checksum_value_is_checked():
     with pytest.raises(ValueError):
-        estnin(10001010000)
+        estnin(10001010009)
 
 def test_is_male_returns_true_if_male():
     assert estnin(10001010002).is_male
@@ -145,4 +176,4 @@ def test_setting_sequence_updates_checksum():
     assert p.checksum == 3
 
 def test_date_property_returns_date_obj():
-    assert estnin(37611050002).date == datetime.date(1976, 11, 5)
+    assert estnin(37611050002).date == date(1976, 11, 5)
