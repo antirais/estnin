@@ -48,17 +48,6 @@ class estnin(object):
 
         return datetime.date(birth_year, birth_month, birth_day)
 
-    @classmethod
-    def _calculate_checksum(self, estnin):
-        _estnin = str(estnin)
-        checksum = sum(int(k)*v for k, v in zip(_estnin, [1,2,3,4,5,6,7,8,9,1])) % 11
-
-        if checksum == 10:
-            checksum = sum(int(k)*v for k, v in zip(_estnin, [3,4,5,6,7,8,9,1,2,3])) % 11
-            checksum = 0 if checksum == 10 else checksum
-
-        return checksum
-
     def _validate_checksum(self, checksum):
         orig_checksum = int(checksum[-1])
         checksum = self._calculate_checksum(checksum)
@@ -71,6 +60,17 @@ class estnin(object):
     def _update_checksum(self):
         checksum = self._calculate_checksum(self._estnin)
         self._estnin = self._estnin._replace(checksum=checksum)
+
+    @classmethod
+    def _calculate_checksum(self, estnin):
+        _estnin = str(estnin)
+        checksum = sum(int(k)*v for k, v in zip(_estnin, [1,2,3,4,5,6,7,8,9,1])) % 11
+
+        if checksum == 10:
+            checksum = sum(int(k)*v for k, v in zip(_estnin, [3,4,5,6,7,8,9,1,2,3])) % 11
+            checksum = 0 if checksum == 10 else checksum
+
+        return checksum
 
     @property
     def is_male(self):
