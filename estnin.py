@@ -94,18 +94,15 @@ class estnin(object):
 
     @century.setter
     def century(self, value):
-        try:
-            century = int(value)
+        century = int(value)
 
-            if century < 1 or century > 8:
-                raise
-        except:
+        if century < 1 or century > 8:
             raise ValueError('invalid century')
-        else:
-            year = 1800+100*((century-1)//2)+self._estnin.date.year%100
-            date = self._estnin.date.replace(year=year)
-            self._estnin = self._estnin._replace(century=century, date=date)
-            self._update_checksum()
+
+        year = 1800+100*((century-1)//2)+self._estnin.date.year%100
+        date = self._estnin.date.replace(year=year)
+        self._estnin = self._estnin._replace(century=century, date=date)
+        self._update_checksum()
 
     @property
     def year(self):
