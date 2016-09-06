@@ -31,11 +31,8 @@ class estnin(object):
 
     @classmethod
     def create(cls, sex, birth_date, sequence):
-        if not 1800 <= birth_date.year <= 2199:
-            raise ValueError('invalid date')
-
-        if not 0 <= sequence <= 999:
-            raise ValueError('invalid sequence')
+        cls._validate_year(birth_date.year)
+        cls._validate_sequence(sequence)
 
         century = ((birth_date.year-1800)//100)*2+1+bool(sex)
         date = '{:02d}{:02d}{:02d}'.format(birth_date.year%100, birth_date.month, birth_date.day)
@@ -68,14 +65,26 @@ class estnin(object):
     def __add__(self, other):
         days, sequence = divmod(self.sequence+other, 1000)
         date = self.date + datetime.timedelta(days=days)
-
-        if not 1800 <= date.year <= 2199:
-            raise ValueError('invalid date')
-
+        self._validate_year(date.year)
         century = self._calculate_century(date.year)
         self._estnin = self._estnin._replace(century=century, date=date, sequence=sequence)
         self._update_checksum()
         return self
+
+    @classmethod
+    def _validate_year(self, year):
+        if not 1800 <= year <= 2199:
+            raise ValueError('invalid date')
+
+    @classmethod
+    def _validate_sequence(self, sequence):
+        if not 0 <= sequence <= 999:
+            raise ValueError('invalid sequence')
+
+    @classmethod
+    def _validate_century(self, century):
+        if not 1 <= century <= 8:
+            raise ValueError('invalid century')
 
     def _calculate_century(self, year):
         century = (year-1800)//100*2+1
@@ -143,9 +152,7 @@ class estnin(object):
     def century(self, value):
         century = int(value)
 
-        if not 1 <= century <= 8:
-            raise ValueError('invalid century')
-
+        self._validate_century(century)
         year = 1800+100*((century-1)//2)+self._estnin.date.year%100
         date = self._estnin.date.replace(year=year)
         self._estnin = self._estnin._replace(century=century, date=date)
@@ -158,10 +165,7 @@ class estnin(object):
     @year.setter
     def year(self, value):
         year = int(value)
-
-        if not 1800 <= year <= 2199:
-            raise ValueError('invalid year')
-
+        self._validate_year(year)
         date = self._estnin.date.replace(year=year)
         century = self._calculate_century(date.year)
         self._estnin = self._estnin._replace(century=century, date=date)
@@ -175,9 +179,7 @@ class estnin(object):
     def sequence(self, value):
         sequence = int(value)
 
-        if not 0 <= sequence <= 999:
-            raise ValueError('invalid sequence')
-
+        self._validate_sequence(sequence)
         self._estnin = self._estnin._replace(sequence=sequence)
         self._update_checksum()
 
