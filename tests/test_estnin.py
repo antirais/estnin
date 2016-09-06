@@ -213,3 +213,19 @@ def test_inverting_estnin_changes_sex():
 
     ~person
     assert person.is_male
+
+def test_adding_integers_increments_sequence():
+    p = estnin(10001010002)
+    p += 1
+    assert p.sequence == 1
+    assert p.checksum == 3
+
+def test_adding_integers_increments_date():
+    p = estnin.create(estnin.MALE, date(1999, 12, 31), 999)
+    p += 1
+    assert p.sequence == 0
+    assert p.date.day == 1
+    assert p.date.month == 1
+    assert p.date.year == 2000
+    assert p.is_male
+    assert p.century == 5
