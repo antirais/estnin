@@ -71,6 +71,9 @@ class estnin(object):
         self._update_checksum()
         return self
 
+    def __sub__(self, other):
+        return self+(-other)
+
     @classmethod
     def _validate_year(self, year):
         if not 1800 <= year <= 2199:
@@ -235,7 +238,7 @@ if __name__ == '__main__':
     #person = estnin.create(estnin.MALE, datetime.date(1989, 8, 28), 27)
     #print_person(person)
 
-    person = estnin(50002290002)
+    person = estnin.create(estnin.FEMALE, date(1900, 1, 1), 0)
     print_person(person)
-    ~person
+    person -= 1
     print_person(person)

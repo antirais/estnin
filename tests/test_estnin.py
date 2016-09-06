@@ -289,6 +289,27 @@ def test_adding_integers_increments_date():
     assert p.century == 5
 
 def test_adding_integers_has_upper_bounds():
-    p = estnin.create(estnin.MALE, date(2199, 12, 31), 999)
+    p = estnin(estnin.MAX)
     with pytest.raises(ValueError):
         p += 1
+
+def test_substracting_integers_decrements_sequence():
+    p = estnin(10001010013)
+    p -= 1
+    assert p.sequence == 0
+    assert p.checksum == 2
+
+def test_substracting_integers_decrements_date():
+    p = estnin.create(estnin.MALE, date(2000, 1, 1), 0)
+    p -= 1
+    assert p.sequence == 999
+    assert p.date.day == 31
+    assert p.date.month == 12
+    assert p.date.year == 1999
+    assert p.is_male
+    assert p.century == 3
+
+def test_substracting_integers_has_lower_bounds():
+    p = estnin(estnin.MIN)
+    with pytest.raises(ValueError):
+        p -= 1
