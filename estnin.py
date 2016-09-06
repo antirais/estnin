@@ -237,5 +237,5 @@ if __name__ == '__main__':
 
     person = estnin(50002290002)
     print_person(person)
-    person.day = 8
+    ~person
     print_person(person)

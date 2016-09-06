@@ -265,6 +265,13 @@ def test_inverting_estnin_changes_sex():
     ~person
     assert person.is_male
 
+def test_inverting_estnin_updates_checksum():
+    person = estnin(10001010002)
+    assert person.checksum == 2
+
+    ~person
+    assert person.checksum == 3
+
 def test_adding_integers_increments_sequence():
     p = estnin(10001010002)
     p += 1
