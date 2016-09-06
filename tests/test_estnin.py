@@ -229,3 +229,8 @@ def test_adding_integers_increments_date():
     assert p.date.year == 2000
     assert p.is_male
     assert p.century == 5
+
+def test_adding_integers_has_upper_bounds():
+    p = estnin.create(estnin.MALE, date(2199, 12, 31), 999)
+    with pytest.raises(ValueError):
+        p += 1

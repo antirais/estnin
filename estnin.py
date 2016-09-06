@@ -68,6 +68,10 @@ class estnin(object):
     def __add__(self, other):
         days, sequence = divmod(self.sequence+other, 1000)
         date = self.date + datetime.timedelta(days=days)
+
+        if not 1800 <= date.year <= 2199:
+            raise ValueError('invalid date')
+
         century = self._calculate_century(date.year)
         self._estnin = self._estnin._replace(century=century, date=date, sequence=sequence)
         self._update_checksum()
@@ -201,7 +205,6 @@ if __name__ == '__main__':
     person = estnin.create(estnin.MALE, datetime.date(1989, 8, 28), 27)
     print_person(person)
 
-    person = estnin.create(estnin.MALE, date(1999, 12, 31), 998)
+    person = estnin.create(estnin.MALE, date(2199, 12, 31), 999)
     print_person(person)
-    print_person(person+1)
     print_person(person+1)
