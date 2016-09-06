@@ -227,6 +227,7 @@ if __name__ == '__main__':
         print('date:       %s' % person.date)
         print('year:       %s' % person.year)
         print('month:      %s' % person.month)
+        print('day:        %s' % person.day)
         print('sequence:   %s' % person.sequence)
         print('checksum:   %s' % person.checksum)
 
