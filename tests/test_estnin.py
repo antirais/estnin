@@ -175,6 +175,33 @@ def test_setting_month_updates_checksum():
     p.month = 8
     assert p.checksum == 4
 
+def test_day_returns_valid_value():
+    assert estnin(14201010005).day == 1
+
+def test_setting_day_checks_type():
+    with pytest.raises(ValueError):
+        estnin(14201010005).day = 'invalid'
+
+def test_setting_day_checks_range():
+    with pytest.raises(ValueError):
+        estnin(14201010005).day = -1
+
+    with pytest.raises(ValueError):
+        estnin(14201010005).day = 32
+
+    with pytest.raises(ValueError):
+       estnin(50002290002).day = 30
+
+def test_setting_day_updates_value():
+    p = estnin(10001010002)
+    p.day = 8
+    assert p.day == 8
+
+def test_setting_day_updates_checksum():
+    p = estnin(10001010002)
+    p.day = 8
+    assert p.checksum == 7
+
 def test_sequence_returns_valid_value():
     assert estnin(10001010002).sequence == 0
 
