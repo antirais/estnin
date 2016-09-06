@@ -151,6 +151,30 @@ def test_setting_year_updates_checksum():
     p.year = 2000
     assert p.checksum == 6
 
+def test_month_returns_valid_value():
+    assert estnin(14201010005).month == 1
+
+def test_setting_month_checks_type():
+    with pytest.raises(ValueError):
+        estnin(14201010005).month = 'invalid'
+
+def test_setting_month_checks_range():
+    with pytest.raises(ValueError):
+        estnin(14201010005).month = -1
+
+    with pytest.raises(ValueError):
+        estnin(14201010005).month = 13
+
+def test_setting_month_updates_value():
+    p = estnin(10001010002)
+    p.month = 8
+    assert p.month == 8
+
+def test_setting_month_updates_checksum():
+    p = estnin(10001010002)
+    p.month = 8
+    assert p.checksum == 4
+
 def test_sequence_returns_valid_value():
     assert estnin(10001010002).sequence == 0
 

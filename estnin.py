@@ -176,6 +176,17 @@ class estnin(object):
         self._update_checksum()
 
     @property
+    def month(self):
+        return self._estnin.date.month
+
+    @month.setter
+    def month(self, value):
+        month = int(value)
+        date = self._estnin.date.replace(month=month)
+        self._estnin = self._estnin._replace(date=date)
+        self._update_checksum()
+
+    @property
     def sequence(self):
         return self._estnin.sequence
 
@@ -204,6 +215,7 @@ if __name__ == '__main__':
         print('is female:  %s' % person.is_female)
         print('date:       %s' % person.date)
         print('year:       %s' % person.year)
+        print('month:      %s' % person.month)
         print('sequence:   %s' % person.sequence)
         print('checksum:   %s' % person.checksum)
 
@@ -211,6 +223,6 @@ if __name__ == '__main__':
     person = estnin.create(estnin.MALE, datetime.date(1989, 8, 28), 27)
     print_person(person)
 
-    person = estnin.create(estnin.MALE, date(2199, 12, 31), 999)
+    person = estnin(10001010002)
+    person.month = 8
     print_person(person)
-    print_person(person+1)
