@@ -90,6 +90,10 @@ class estnin(object):
         century = (year-1800)//100*2+1
         return century if self.is_male else century+1
 
+    @classmethod
+    def _calculate_year(self, century, year):
+        return 1800+100*((century-1)//2)+year%100
+
     def _validate_format(self, estnin):
         estnin = int(estnin)
 
@@ -106,7 +110,7 @@ class estnin(object):
 
     def _validate_date(self, estnin):
         century = int(estnin[0])
-        birth_year = int(estnin[1:3])+1800+100*((century-1)//2)
+        birth_year = self._calculate_year(century, int(estnin[1:3]))
         birth_month = int(estnin[3:5])
         birth_day = int(estnin[5:7])
 
@@ -153,7 +157,7 @@ class estnin(object):
         century = int(value)
 
         self._validate_century(century)
-        year = 1800+100*((century-1)//2)+self._estnin.date.year%100
+        year = self._calculate_year(century, self._estnin.date.year)
         date = self._estnin.date.replace(year=year)
         self._estnin = self._estnin._replace(century=century, date=date)
         self._update_checksum()
