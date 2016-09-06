@@ -207,3 +207,9 @@ def test_inverting_estnin_changes_sex():
 
     ~person
     assert person.is_female
+
+    person = estnin.create(estnin.FEMALE, date(2000, 1, 1), 0)
+    assert person.is_female
+
+    ~person
+    assert person.is_male
