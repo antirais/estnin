@@ -54,7 +54,7 @@ class estnin(object):
     def __eq__(self, other):
         return int(self) == int(other)
 
-    def __invert__(self):
+    def __neg__(self):
         if self.is_male:
             self.century += 1
         else:

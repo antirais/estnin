@@ -256,20 +256,20 @@ def test_inverting_estnin_changes_sex():
     person = estnin.create(estnin.MALE, date(2000, 1, 1), 0)
     assert person.is_male
 
-    ~person
+    -person
     assert person.is_female
 
     person = estnin.create(estnin.FEMALE, date(2000, 1, 1), 0)
     assert person.is_female
 
-    ~person
+    -person
     assert person.is_male
 
 def test_inverting_estnin_updates_checksum():
     person = estnin(10001010002)
     assert person.checksum == 2
 
-    ~person
+    -person
     assert person.checksum == 3
 
 def test_adding_integers_increments_sequence():
