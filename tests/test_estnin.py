@@ -313,3 +313,77 @@ def test_substracting_integers_has_lower_bounds():
     p = estnin(estnin.MIN)
     with pytest.raises(ValueError):
         p -= 1
+
+def test_object_is_iterable():
+    p = estnin(10001010002)
+    items = [i for c, i in zip(range(3), p)]
+    assert len(items) == 3
+
+def test_iteration_returns_new_objects():
+    p = estnin(10001010002)
+    assert p.checksum == 2
+
+    items = [i for c, i in zip(range(1), p)]
+    assert isinstance(items[0], estnin)
+
+def test_iteration_returns_the_base_value():
+    p = estnin(10001010002)
+
+    items = [i for c, i in zip(range(2), p)]
+    assert items[0].sequence == 0
+    assert items[1].sequence == 1
+    assert p.sequence == 2
+
+def test_iteration_returns_new_instances():
+    p = estnin(10001010002)
+
+    items = [i for c, i in zip(range(2), p)]
+    assert items[-1].sequence == 1
+    assert p.sequence == 2
+
+    items[-1] += 1
+    assert items[-1].sequence == 2
+    assert p.sequence == 2
+
+def test_iteration_ends_with_max_value():
+    p = estnin(estnin.MAX)-2
+
+    items = [i for c, i in zip(range(10), p)]
+    assert len(items) == 2
+
+def test_object_is_reversable():
+    p = estnin(10001010013)
+    items = [i for c, i in zip(range(2), p)]
+    assert len(items) == 2
+
+def test_reversing_returns_new_objects():
+    p = estnin(10001010013)
+    assert p.checksum == 3
+
+    items = [i for c, i in zip(range(1), p)]
+    assert isinstance(items[0], estnin)
+
+def test_reversing_returns_the_base_value():
+    p = estnin(10001010024)
+
+    items = [i for c, i in zip(range(2), reversed(p))]
+    assert items[0].sequence == 2
+    assert items[1].sequence == 1
+    assert p.sequence == 0
+
+def test_reversing_returns_new_instances():
+    p = estnin(10001010024)
+
+    items = [i for c, i in zip(range(2), reversed(p))]
+    assert items[0].sequence == 2
+    assert p.sequence == 0
+
+    items[0] -= 1
+    assert items[0].sequence == 1
+    assert p.sequence == 0
+
+def test_reverse_ends_with_min_value():
+    p = estnin(estnin.MIN)+2
+
+    items = [i for c, i in zip(range(10), reversed(p))]
+    assert len(items) == 2

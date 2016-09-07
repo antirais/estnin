@@ -74,6 +74,26 @@ class estnin(object):
     def __sub__(self, other):
         return self+(-other)
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            value = estnin(self)
+            self += 1
+            return value
+        except ValueError as e:
+            raise StopIteration
+
+    def __reversed__(self):
+        try:
+            while True:
+                value = estnin(self)
+                self -= 1
+                yield value
+        except ValueError as e:
+            raise StopIteration
+
     @classmethod
     def _validate_year(self, year):
         if not 1800 <= year <= 2199:
@@ -219,26 +239,3 @@ class estnin(object):
     @property
     def date(self):
         return self._estnin.date
-
-if __name__ == '__main__':
-
-    def print_person(person):
-        print('='*30)
-        print('to str:     %s' % person)
-        print('is male:    %s' % person.is_male)
-        print('is female:  %s' % person.is_female)
-        print('date:       %s' % person.date)
-        print('year:       %s' % person.year)
-        print('month:      %s' % person.month)
-        print('day:        %s' % person.day)
-        print('sequence:   %s' % person.sequence)
-        print('checksum:   %s' % person.checksum)
-
-    #person = estnin(37611050002)
-    #person = estnin.create(estnin.MALE, datetime.date(1989, 8, 28), 27)
-    #print_person(person)
-
-    person = estnin.create(estnin.FEMALE, date(1900, 1, 1), 0)
-    print_person(person)
-    person -= 1
-    print_person(person)
