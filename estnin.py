@@ -131,19 +131,18 @@ class estnin(object):
         else:
             checksum = self._validate_checksum(estnin)
 
-        estnin = str(estnin)
         return _estnin(
-            int(estnin[0]),
+            estnin//10**10,
             self._validate_date(estnin),
-            int(estnin[7:10]),
+            (estnin//10)%1000,
             checksum,
         )
 
     def _validate_date(self, estnin):
-        century = int(estnin[0])
-        birth_year = self._calculate_year(century, int(estnin[1:3]))
-        birth_month = int(estnin[3:5])
-        birth_day = int(estnin[5:7])
+        century = estnin//10**10
+        birth_year = self._calculate_year(century, (estnin%10**10)//10**8)
+        birth_month = (estnin%10**8)//10**6
+        birth_day = (estnin%10**6)//10**4
 
         return datetime.date(birth_year, birth_month, birth_day)
 
