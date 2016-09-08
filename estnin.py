@@ -125,13 +125,13 @@ class estnin(object):
             if not self.MIN <= estnin <= self.MAX:
                 raise ValueError('invalid value')
 
-        estnin = str(estnin)
 
         if set_checksum:
             checksum = self._calculate_checksum(estnin)
         else:
             checksum = self._validate_checksum(estnin)
 
+        estnin = str(estnin)
         return _estnin(
             int(estnin[0]),
             self._validate_date(estnin),
@@ -148,13 +148,12 @@ class estnin(object):
         return datetime.date(birth_year, birth_month, birth_day)
 
     def _validate_checksum(self, checksum):
-        orig_checksum = int(checksum[-1])
-        checksum = self._calculate_checksum(checksum)
+        calculated = self._calculate_checksum(checksum)
 
-        if orig_checksum != checksum:
+        if checksum % 10 != calculated:
             raise ValueError('invalid checksum')
 
-        return orig_checksum
+        return calculated
 
     def _update_checksum(self):
         checksum = self._calculate_checksum(self._estnin)
