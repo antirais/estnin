@@ -41,6 +41,22 @@ def test_create_sets_checksum():
     person = estnin.create(estnin.MALE, date(1800, 1, 1), 0)
     assert person.checksum == 2
 
+def test_create_sets_correct_checksum():
+    p = estnin.create(estnin.MALE, date(1800, 1, 1), 0)
+    assert p.checksum == 2
+
+def test_set_checksum_updates_checksum():
+    p = estnin(10001010000, set_checksum=True)
+    assert p.checksum == 2
+
+def test_set_checksum_checks_for_lower_bound():
+    with pytest.raises(ValueError):
+        p = estnin(10001010000-1, set_checksum=True)
+
+def test_set_checksum_checks_for_upper_bound():
+    with pytest.raises(ValueError):
+        p = estnin(89912319999+1, set_checksum=True)
+
 def test_argument_length_is_checked():
     with pytest.raises(ValueError):
         estnin("00000000000")

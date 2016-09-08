@@ -26,8 +26,8 @@ class estnin(object):
     MALE = 0
     FEMALE = 1
 
-    def __init__(self, estnin):
-        self._estnin = self._validate_format(estnin)
+    def __init__(self, estnin, set_checksum=False):
+        self._estnin = self._validate_format(estnin, set_checksum=set_checksum)
 
     @classmethod
     def create(cls, sex, birth_date, sequence):
@@ -35,9 +35,7 @@ class estnin(object):
         cls._validate_sequence(sequence)
 
         century = ((birth_date.year-1800)//100)*2+1+bool(sex)
-        date = '{:02d}{:02d}{:02d}'.format(birth_date.year%100, birth_date.month, birth_date.day)
-        checksum = cls._calculate_checksum("{}{}{:03d}".format(century, date, sequence))
-        return cls(str(_estnin(century, birth_date, sequence, checksum)))
+        return cls(_estnin(century, birth_date, sequence, 0), set_checksum=True)
 
     def __repr__(self):
         return str(self._estnin)
@@ -117,18 +115,28 @@ class estnin(object):
     def _calculate_year(self, century, year):
         return 1800+100*((century-1)//2)+year%100
 
-    def _validate_format(self, estnin):
+    def _validate_format(self, estnin, set_checksum=False):
         estnin = int(estnin)
 
-        if not self.MIN <= estnin <= self.MAX:
-            raise ValueError('invalid value')
+        if set_checksum:
+            if not self.MIN//10*10 <= estnin <= self.MAX//10*10+9:
+                raise ValueError('invalid value')
+        else:
+            if not self.MIN <= estnin <= self.MAX:
+                raise ValueError('invalid value')
 
         estnin = str(estnin)
+
+        if set_checksum:
+            checksum = self._calculate_checksum(estnin)
+        else:
+            checksum = self._validate_checksum(estnin)
+
         return _estnin(
             int(estnin[0]),
             self._validate_date(estnin),
             int(estnin[7:10]),
-            self._validate_checksum(estnin),
+            checksum,
         )
 
     def _validate_date(self, estnin):
