@@ -11,11 +11,11 @@ __author__ = "Anti Räis"
 
 class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
     def __str__(self):
-        date = '{:02d}{:02d}{:02d}'.format(self.date.year%100, self.date.month, self.date.day)
-        return '{c:d}{d}{s:03d}{cs:d}'.format(c=self.century, d=date, s=self.sequence, cs=self.checksum)
+        return str(int(self))
 
     def __int__(self):
-        return int(str(self))
+        date = self.date
+        return self.century*10**10+date.year%100*10**8+date.month*10**6+date.day*10**4+self.sequence*10+self.checksum
 
 class estnin(object):
     """Estonian national identity number"""
