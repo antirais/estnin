@@ -17,19 +17,69 @@ class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
         return self.century*10**10+date.year%100*10**8+date.month*10**6+date.day*10**4+self.sequence*10+self.checksum
 
 class estnin(object):
-    """Estonian national identity number"""
+    """
+    Provides an representation for Estonian national identity number.
+    """
 
+    #: First valid value (minimum as a number).
     MIN = 10001010002
+    #: Last valid value (maximum as a number).
     MAX = 89912319991
 
+    #: Value used by :class:`estnin.create <estnin.create>` method to indicate that the new EstNIN should be created for a male.
     MALE = 0
+    #: Value used by :class:`estnin.create <estnin.create>` method to indicate that the new EstNIN should be created is for a female.
     FEMALE = 1
 
     def __init__(self, estnin, set_checksum=False):
+        """
+        Create a new instance from given value.
+
+        :param estnin: value to create an EstNIN representation for.
+        :type estnin: ``str`` or ``int``
+
+        :param set_checksum: if set to ``True`` then recalculate and set the checksum value.
+        :type set_checksum: ``bool``
+
+        :return: :class:`estnin <estnin>` object
+        :rtype: estnin.estnin
+
+        :raises: :class:`ValueError <ValueError>` if invalid value is given.
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> estnin(37001011233)
+            37001011233
+            >>> estnin("37001011230", set_checksum=True)
+            37001011233
+        """
         self._estnin = self._validate_format(estnin, set_checksum=set_checksum)
 
     @classmethod
     def create(cls, sex, birth_date, sequence):
+        """
+        Create a new instance by providing the sex, birth date and sequence.
+
+        :param sex: use *falsy* for male and *truthy* value for female
+        :type sex: :class:`estnin.MALE <estnin.MALE>` or :class:`estnin.FEMALE <estnin.FEMALE>`
+
+        :param birth_date: date of birth
+        :type birth_date: ``datetime.date``
+
+        :param sequence: value in ``[0 - 999]`` specifing the sequence number on given day
+        :type sequence: ``int``
+
+        :return: :class:`estnin.estnin <estnin.estnin>` object
+        :rtype: estnin.estnin
+
+        :raises: :class:`ValueError <ValueError>` if invalid value is provided
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> from datetime import date
+            >>> estnin.create(estnin.MALE, date(1970, 1, 1), 123)
+            37001011233
+        """
         cls._validate_year(birth_date.year)
         cls._validate_sequence(sequence)
 
@@ -94,17 +144,17 @@ class estnin(object):
     @classmethod
     def _validate_year(self, year):
         if not 1800 <= year <= 2199:
-            raise ValueError('invalid date')
+            raise ValueError('year not in range [1800..2199]')
 
     @classmethod
     def _validate_sequence(self, sequence):
         if not 0 <= sequence <= 999:
-            raise ValueError('invalid sequence')
+            raise ValueError('sequence not in range [0..999]')
 
     @classmethod
     def _validate_century(self, century):
         if not 1 <= century <= 8:
-            raise ValueError('invalid century')
+            raise ValueError('century not in range [1..8]')
 
     def _calculate_century(self, year):
         century = (year-1800)//100*2+1
@@ -119,10 +169,10 @@ class estnin(object):
 
         if set_checksum:
             if not self.MIN//10*10 <= estnin <= self.MAX//10*10+9:
-                raise ValueError('invalid value')
+                raise ValueError('value is out of range')
         else:
             if not self.MIN <= estnin <= self.MAX:
-                raise ValueError('invalid value')
+                raise ValueError('value is out of range')
 
 
         if set_checksum:
@@ -170,14 +220,41 @@ class estnin(object):
 
     @property
     def is_male(self):
+        """
+        Returns ``True`` if the EstNIN represents a male.
+
+        :rtype: ``bool``
+        """
         return self._estnin.century % 2 == 1
 
     @property
     def is_female(self):
+        """
+        Returns ``True`` if the EstNIN represents a female.
+
+        :rtype: ``bool``
+        """
         return self._estnin.century % 2 == 0
 
     @property
     def century(self):
+        """
+        Century property that returns the century digit in the EstNIN or sets it accordingly.
+
+        :getter: return the century digit as ``int``.
+        :setter: set the century digit given as ``int`` or ``str``.
+        :updates: checksum
+        :raises: :class:`ValueError <ValueError>` if century value is not in range ``[1..8]``
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.century
+            3
+            >>> person.century = 5
+            >>> person
+            57001011235
+        """
         return self._estnin.century
 
     @century.setter
@@ -192,6 +269,23 @@ class estnin(object):
 
     @property
     def year(self):
+        """
+        Year property that returns the year in the EstNIN or sets it accordingly.
+
+        :getter: return the year as ``int`` in the format of ``YYYY``.
+        :setter: set the year given as ``int`` or ``str`` in the format of ``YYYY``.
+        :updates: century, checksum
+        :raises: :class:`ValueError <ValueError>` if year value is not in range ``[1800..2199]``
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.year
+            1970
+            >>> person.year = 2001
+            >>> person
+            50101011235
+        """
         return self._estnin.date.year
 
     @year.setter
@@ -205,6 +299,23 @@ class estnin(object):
 
     @property
     def month(self):
+        """
+        Month property that returns the month in the EstNIN or sets it accordingly.
+
+        :getter: return the month as ``int`` in the format of ``MM``.
+        :setter: set the month given as ``int`` or ``str`` in the format of ``MM``.
+        :updates: checksum
+        :raises: :class:`ValueError <ValueError>` if month value is not in range ``[1..12]``
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.month
+            1
+            >>> person.month = 12
+            >>> person
+            30112011231
+        """
         return self._estnin.date.month
 
     @month.setter
@@ -216,6 +327,23 @@ class estnin(object):
 
     @property
     def day(self):
+        """
+        Day property that returns the day in the EstNIN or sets it accordingly.
+
+        :getter: return the day as ``int`` in the format of ``DD``.
+        :setter: set the day given as ``int`` or ``str`` in the format of ``DD``.
+        :updates: checksum
+        :raises: :class:`ValueError <ValueError>` if day value is not valid for given month.
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.day
+            1
+            >>> person.day = 31
+            >>> person
+            37001311233
+        """
         return self._estnin.date.day
 
     @day.setter
@@ -227,6 +355,23 @@ class estnin(object):
 
     @property
     def sequence(self):
+        """
+        Sequence property that returns the sequence in the EstNIN or sets it accordingly.
+
+        :getter: return the sequence as ``int``.
+        :setter: set the sequence given as ``int`` or ``str``.
+        :updates: checksum
+        :raises: :class:`ValueError <ValueError>` if sequence value is not in range ``[0..999]``.
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.sequence
+            123
+            >>> person.sequence = 42
+            >>> person
+            37001010421
+        """
         return self._estnin.sequence
 
     @sequence.setter
@@ -239,8 +384,30 @@ class estnin(object):
 
     @property
     def checksum(self):
+        """
+        Checksum property that returns the checksum digit in the EstNIN.
+
+        :getter: return the checksum as ``int``.
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.checksum
+            3
+        """
         return self._estnin.checksum
 
     @property
     def date(self):
+        """
+        Date property that returns the date representated in the EstNIN.
+
+        :getter: return the date as ``datetime.date``.
+
+        **Usage:**
+            >>> from estnin import estnin
+            >>> person = estnin(37001011233)
+            >>> person.date
+            datetime.date(1970, 1, 1)
+        """
         return self._estnin.date
