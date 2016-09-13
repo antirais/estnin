@@ -245,6 +245,34 @@ def test_setting_sequence_updates_checksum():
 def test_date_property_returns_date_obj():
     assert estnin(37611050002).date == date(1976, 11, 5)
 
+def test_setting_date_property_checks_type():
+    with pytest.raises(ValueError):
+        estnin(37611050002).date = 'invalid date'
+
+def test_setting_date_property_checks_year_value():
+    with pytest.raises(ValueError):
+        estnin(37611050002).date = date(1799, 1, 1)
+
+def test_setting_date_property_updates_century():
+    p = estnin(37611050035)
+    p.date = p.date.replace(year=2000)
+    assert p.century == 5
+
+def test_setting_date_property_updates_month():
+    p = estnin(37611050035)
+    p.date = p.date.replace(month=4)
+    assert p.month == 4
+
+def test_setting_date_property_updates_day():
+    p = estnin(37611050035)
+    p.date = p.date.replace(day=4)
+    assert p.day == 4
+
+def test_setting_date_property_updates_checksum():
+    p = estnin(37611050035)
+    p.date = p.date.replace(day=6)
+    assert p.checksum == 1
+
 def test_estnin_has_int_representation():
     assert int(estnin(10001010002)) == 10001010002
 

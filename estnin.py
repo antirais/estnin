@@ -242,8 +242,8 @@ class estnin(object):
         Century property that returns the century digit in the EstNIN or sets it accordingly.
 
         :getter: return the century digit as ``int``.
-        :setter: set the century digit given as ``int`` or ``str``.
-        :updates: checksum
+        :setter: update the century digit given as ``int`` or ``str``.
+        :modifies: checksum
         :raises: :class:`ValueError <ValueError>` if century value is not in range ``[1..8]``
 
         **Usage:**
@@ -273,8 +273,8 @@ class estnin(object):
         Year property that returns the year in the EstNIN or sets it accordingly.
 
         :getter: return the year as ``int`` in the format of ``YYYY``.
-        :setter: set the year given as ``int`` or ``str`` in the format of ``YYYY``.
-        :updates: century, checksum
+        :setter: update the year given as ``int`` or ``str`` in the format of ``YYYY``.
+        :modifies: century, checksum
         :raises: :class:`ValueError <ValueError>` if year value is not in range ``[1800..2199]``
 
         **Usage:**
@@ -303,8 +303,8 @@ class estnin(object):
         Month property that returns the month in the EstNIN or sets it accordingly.
 
         :getter: return the month as ``int`` in the format of ``MM``.
-        :setter: set the month given as ``int`` or ``str`` in the format of ``MM``.
-        :updates: checksum
+        :setter: update the month given as ``int`` or ``str`` in the format of ``MM``.
+        :modifies: checksum
         :raises: :class:`ValueError <ValueError>` if month value is not in range ``[1..12]``
 
         **Usage:**
@@ -331,8 +331,8 @@ class estnin(object):
         Day property that returns the day in the EstNIN or sets it accordingly.
 
         :getter: return the day as ``int`` in the format of ``DD``.
-        :setter: set the day given as ``int`` or ``str`` in the format of ``DD``.
-        :updates: checksum
+        :setter: update the day given as ``int`` or ``str`` in the format of ``DD``.
+        :modifies: checksum
         :raises: :class:`ValueError <ValueError>` if day value is not valid for given month.
 
         **Usage:**
@@ -359,8 +359,8 @@ class estnin(object):
         Sequence property that returns the sequence in the EstNIN or sets it accordingly.
 
         :getter: return the sequence as ``int``.
-        :setter: set the sequence given as ``int`` or ``str``.
-        :updates: checksum
+        :setter: update the sequence given as ``int`` or ``str``.
+        :modifies: checksum
         :raises: :class:`ValueError <ValueError>` if sequence value is not in range ``[0..999]``.
 
         **Usage:**
@@ -403,11 +403,28 @@ class estnin(object):
         Date property that returns the date representated in the EstNIN.
 
         :getter: return the date as ``datetime.date``.
+        :setter: update the date given as ``datetime.date``.
+        :modifies: century, checksum
+        :raises: :class:`ValueError <ValueError>` if invalid date is given.
 
         **Usage:**
             >>> from estnin import estnin
             >>> person = estnin(37001011233)
             >>> person.date
             datetime.date(1970, 1, 1)
+            >>> person.date = person.date.replace(year=1972, day=22)
+            >>> person.date
+            datetime.date(1972, 1, 22)
+            >>> person
+            37201221236
         """
         return self._estnin.date
+
+    @date.setter
+    def date(self, value):
+        if not isinstance(value, date):
+            raise ValueError('invalid date object')
+
+        self.year = value.year
+        self.month = value.month
+        self.day = value.day

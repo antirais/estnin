@@ -52,14 +52,14 @@ int()
 
 negation
 """"""""
-Negation is defined as changing the sex from male to female or *vice verca*.
+Negation is defined as changing the sex from male to female or vice verca.
 ::
 
     >>> assert -estnin(37001011233) == estnin(47001011234)
 
 addition and substraction
 """""""""""""""""""""""""
-Adding an integer increments the sequence value by given amount. If the sum of the sequence and the number is greater than 999, then the day is incremented and the remainder is set as the new sequence value. In case the day was the last day of the month, then the month is incremented. Similarly the year is incremented when the month value is incremented. Year is incremented until the defined maximum value is reached. If the year crosses the century boundary, then the century digit is also properly set.
+Adding an integer increments the sequence value by given amount. If the sum of the sequence and the number given is greater than 999, then the day is incremented and the remainder is set as the new sequence value. The day, month and year values are incremented in chronological order until the defined maximum value is reached. If the year crosses the century boundary, then the century digit is also properly set.
 ::
 
     >>> assert estnin(37001011244) == estnin(37001011233)+1
