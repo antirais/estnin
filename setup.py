@@ -35,7 +35,7 @@ setup(
 	name					= 'estnin',
 	version					= VERSION,
 	url						= 'https://github.com/antirais/estnin',
-	download_url			= 'https://github.com/antirais/estnin/tarball/%s' % TAG
+	download_url			= 'https://github.com/antirais/estnin/tarball/%s' % TAG,
 	py_modules				= ['estnin'],
 	license					= 'MIT',
 	include_package_data	= True,
