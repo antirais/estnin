@@ -64,7 +64,7 @@ class estnin(object):
         :type sex: :class:`estnin.MALE <estnin.MALE>` or :class:`estnin.FEMALE <estnin.FEMALE>`
 
         :param birth_date: date of birth
-        :type birth_date: ``datetime.date``
+        :type birth_date: :py:func:`datetime.date`
 
         :param sequence: value in ``[0 - 999]`` specifing the sequence number on given day
         :type sequence: :py:func:`int`
@@ -402,8 +402,8 @@ class estnin(object):
         """
         Date property that returns the date representated in the EstNIN.
 
-        :getter: return the date as ``datetime.date``.
-        :setter: update the date given as ``datetime.date``.
+        :getter: return the date as :py:func:`datetime.date`.
+        :setter: update the date given as :py:func:`datetime.date`.
         :modifies: century, checksum
         :raises: :py:exc:`ValueError <ValueError>` if invalid date is given.
 
