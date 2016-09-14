@@ -15,7 +15,6 @@ def read_file(file_name):
 
 README = read_file('README.rst')
 VERSION = read_file('VERSION')
-TAG = '1.0.0'
 
 class CleanCommand(Command):
 	"""Custom clean command to tidy up the project root."""
@@ -35,7 +34,6 @@ setup(
 	name					= 'estnin',
 	version					= VERSION,
 	url						= 'https://github.com/antirais/estnin',
-	download_url			= 'https://github.com/antirais/estnin/tarball/%s' % TAG,
 	py_modules				= ['estnin'],
 	license					= 'MIT',
 	include_package_data	= True,
