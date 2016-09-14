@@ -36,15 +36,15 @@ class estnin(object):
         Create a new instance from given value.
 
         :param estnin: value to create an EstNIN representation for.
-        :type estnin: ``str`` or ``int``
+        :type estnin: :py:func:`str` or :py:func:`int`
 
-        :param set_checksum: if set to ``True`` then recalculate and set the checksum value.
-        :type set_checksum: ``bool``
+        :param set_checksum: if set to :py:const:`True` then recalculate and set the checksum value.
+        :type set_checksum: :py:const:`bool`
 
         :return: :class:`estnin <estnin>` object
         :rtype: estnin.estnin
 
-        :raises: :class:`ValueError <ValueError>` if invalid value is given.
+        :raises: :py:exc:`ValueError <ValueError>` if invalid value is given.
 
         **Usage:**
             >>> from estnin import estnin
@@ -67,12 +67,12 @@ class estnin(object):
         :type birth_date: ``datetime.date``
 
         :param sequence: value in ``[0 - 999]`` specifing the sequence number on given day
-        :type sequence: ``int``
+        :type sequence: :py:func:`int`
 
         :return: :class:`estnin.estnin <estnin.estnin>` object
         :rtype: estnin.estnin
 
-        :raises: :class:`ValueError <ValueError>` if invalid value is provided
+        :raises: :py:exc:`ValueError <ValueError>` if invalid value is provided
 
         **Usage:**
             >>> from estnin import estnin
@@ -221,18 +221,18 @@ class estnin(object):
     @property
     def is_male(self):
         """
-        Returns ``True`` if the EstNIN represents a male.
+        Returns :py:const:`True` if the EstNIN represents a male.
 
-        :rtype: ``bool``
+        :rtype: :py:const:`bool`
         """
         return self._estnin.century % 2 == 1
 
     @property
     def is_female(self):
         """
-        Returns ``True`` if the EstNIN represents a female.
+        Returns :py:const:`True` if the EstNIN represents a female.
 
-        :rtype: ``bool``
+        :rtype: :py:const:`bool`
         """
         return self._estnin.century % 2 == 0
 
@@ -241,10 +241,10 @@ class estnin(object):
         """
         Century property that returns the century digit in the EstNIN or sets it accordingly.
 
-        :getter: return the century digit as ``int``.
-        :setter: update the century digit given as ``int`` or ``str``.
+        :getter: return the century digit as :py:func:`int`.
+        :setter: update the century digit given as :py:func:`int` or :py:func:`str`.
         :modifies: checksum
-        :raises: :class:`ValueError <ValueError>` if century value is not in range ``[1..8]``
+        :raises: :py:exc:`ValueError <ValueError>` if century value is not in range ``[1..8]``
 
         **Usage:**
             >>> from estnin import estnin
@@ -272,10 +272,10 @@ class estnin(object):
         """
         Year property that returns the year in the EstNIN or sets it accordingly.
 
-        :getter: return the year as ``int`` in the format of ``YYYY``.
-        :setter: update the year given as ``int`` or ``str`` in the format of ``YYYY``.
+        :getter: return the year as :py:func:`int` in the format of ``YYYY``.
+        :setter: update the year given as :py:func:`int` or :py:func:`str` in the format of ``YYYY``.
         :modifies: century, checksum
-        :raises: :class:`ValueError <ValueError>` if year value is not in range ``[1800..2199]``
+        :raises: :py:exc:`ValueError <ValueError>` if year value is not in range ``[1800..2199]``
 
         **Usage:**
             >>> from estnin import estnin
@@ -302,10 +302,10 @@ class estnin(object):
         """
         Month property that returns the month in the EstNIN or sets it accordingly.
 
-        :getter: return the month as ``int`` in the format of ``MM``.
-        :setter: update the month given as ``int`` or ``str`` in the format of ``MM``.
+        :getter: return the month as :py:func:`int` in the format of ``MM``.
+        :setter: update the month given as :py:func:`int` or :py:func:`str` in the format of ``MM``.
         :modifies: checksum
-        :raises: :class:`ValueError <ValueError>` if month value is not in range ``[1..12]``
+        :raises: :py:exc:`ValueError <ValueError>` if month value is not in range ``[1..12]``
 
         **Usage:**
             >>> from estnin import estnin
@@ -330,10 +330,10 @@ class estnin(object):
         """
         Day property that returns the day in the EstNIN or sets it accordingly.
 
-        :getter: return the day as ``int`` in the format of ``DD``.
-        :setter: update the day given as ``int`` or ``str`` in the format of ``DD``.
+        :getter: return the day as :py:func:`int` in the format of ``DD``.
+        :setter: update the day given as :py:func:`int` or :py:func:`str` in the format of ``DD``.
         :modifies: checksum
-        :raises: :class:`ValueError <ValueError>` if day value is not valid for given month.
+        :raises: :py:exc:`ValueError <ValueError>` if day value is not valid for given month.
 
         **Usage:**
             >>> from estnin import estnin
@@ -358,10 +358,10 @@ class estnin(object):
         """
         Sequence property that returns the sequence in the EstNIN or sets it accordingly.
 
-        :getter: return the sequence as ``int``.
-        :setter: update the sequence given as ``int`` or ``str``.
+        :getter: return the sequence as :py:func:`int`.
+        :setter: update the sequence given as :py:func:`int` or :py:func:`str`.
         :modifies: checksum
-        :raises: :class:`ValueError <ValueError>` if sequence value is not in range ``[0..999]``.
+        :raises: :py:exc:`ValueError <ValueError>` if sequence value is not in range ``[0..999]``.
 
         **Usage:**
             >>> from estnin import estnin
@@ -387,7 +387,7 @@ class estnin(object):
         """
         Checksum property that returns the checksum digit in the EstNIN.
 
-        :getter: return the checksum as ``int``.
+        :getter: return the checksum as :py:func:`int`.
 
         **Usage:**
             >>> from estnin import estnin
@@ -405,7 +405,7 @@ class estnin(object):
         :getter: return the date as ``datetime.date``.
         :setter: update the date given as ``datetime.date``.
         :modifies: century, checksum
-        :raises: :class:`ValueError <ValueError>` if invalid date is given.
+        :raises: :py:exc:`ValueError <ValueError>` if invalid date is given.
 
         **Usage:**
             >>> from estnin import estnin
