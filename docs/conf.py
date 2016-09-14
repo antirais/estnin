@@ -2,10 +2,13 @@
 # coding: utf-8
 
 import os
+import sys
 
 def read_file(file_name):
     with open(os.path.join(os.curdir, file_name), 'r') as file:
         return file.read()
+
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- General configuration ------------------------------------------------
 
