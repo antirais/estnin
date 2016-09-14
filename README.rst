@@ -11,6 +11,11 @@ Use ``pip`` to install::
 
 	pip install estnin
 
+Documentation
+=============
+
+Full documentation is at https://estnin.readthedocs.io/
+
 Runnig tests
 ============
 ::
