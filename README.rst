@@ -55,6 +55,7 @@ int()
 negation
 """"""""
 Negation is defined as changing the sex from male to female or vice verca.
+
 ::
 
 	>>> assert -estnin(37001011233) == estnin(47001011234)
@@ -62,6 +63,7 @@ Negation is defined as changing the sex from male to female or vice verca.
 addition and substraction
 """""""""""""""""""""""""
 Adding an integer increments the sequence value by given amount. If the sum of the sequence and the number given is greater than 999, then the day is incremented and the remainder is set as the new sequence value. The day, month and year values are incremented in chronological order until the defined maximum value is reached. If the year crosses the century boundary, then the century digit is also properly set.
+
 ::
 
 	>>> assert estnin(37001011244) == estnin(37001011233)+1
@@ -75,6 +77,7 @@ Adding an integer increments the sequence value by given amount. If the sum of t
 iteration
 """""""""
 Iterating over a given ``estnin`` instance creates new objects.
+
 ::
 
 	>>> people = [p for _, p in zip(range(3), estnin(37001011233))]
