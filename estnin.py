@@ -1,6 +1,5 @@
 # coding: utf-8
 
-import sys
 import datetime
 
 from datetime import date
@@ -8,13 +7,22 @@ from collections import namedtuple
 
 __author__ = "Anti Räis"
 
+
 class _estnin(namedtuple('ESTNIN', 'century date sequence checksum')):
     def __str__(self):
         return str(int(self))
 
     def __int__(self):
         date = self.date
-        return self.century*10**10+date.year%100*10**8+date.month*10**6+date.day*10**4+self.sequence*10+self.checksum
+        return (
+            self.century * 10**10
+            + date.year % 100 * 10**8
+            + date.month * 10**6
+            + date.day * 10**4
+            + self.sequence * 10
+            + self.checksum
+        )
+
 
 class estnin(object):
     """
@@ -83,7 +91,7 @@ class estnin(object):
         cls._validate_year(birth_date.year)
         cls._validate_sequence(sequence)
 
-        century = ((birth_date.year-1800)//100)*2+1+bool(sex)
+        century = ((birth_date.year - 1800) // 100) * 2 + 1 + bool(sex)
         return cls(_estnin(century, birth_date, sequence, 0), set_checksum=True)
 
     def __repr__(self):
@@ -110,7 +118,7 @@ class estnin(object):
         return self
 
     def __add__(self, other):
-        days, sequence = divmod(self.sequence+other, 1000)
+        days, sequence = divmod(self.sequence + other, 1000)
         date = self.date + datetime.timedelta(days=days)
         self._validate_year(date.year)
         century = self._calculate_century(date.year)
@@ -119,7 +127,7 @@ class estnin(object):
         return self
 
     def __sub__(self, other):
-        return self+(-other)
+        return self + (-other)
 
     def __iter__(self):
         return self
@@ -157,23 +165,22 @@ class estnin(object):
             raise ValueError('century not in range [1..8]')
 
     def _calculate_century(self, year):
-        century = (year-1800)//100*2+1
-        return century if self.is_male else century+1
+        century = (year - 1800) // 100 * 2 + 1
+        return century if self.is_male else century + 1
 
     @classmethod
     def _calculate_year(self, century, year):
-        return 1800+100*((century-1)//2)+year%100
+        return 1800 + 100 * ((century - 1) // 2) + year % 100
 
     def _validate_format(self, estnin, set_checksum=False):
         estnin = int(estnin)
 
         if set_checksum:
-            if not self.MIN//10*10 <= estnin <= self.MAX//10*10+9:
+            if not self.MIN // 10 * 10 <= estnin <= self.MAX // 10 * 10 + 9:
                 raise ValueError('value is out of range')
         else:
             if not self.MIN <= estnin <= self.MAX:
                 raise ValueError('value is out of range')
-
 
         if set_checksum:
             checksum = self._calculate_checksum(estnin)
@@ -181,17 +188,17 @@ class estnin(object):
             checksum = self._validate_checksum(estnin)
 
         return _estnin(
-            estnin//10**10,
+            estnin // 10**10,
             self._validate_date(estnin),
-            (estnin//10)%1000,
+            (estnin // 10) % 1000,
             checksum,
         )
 
     def _validate_date(self, estnin):
-        century = estnin//10**10
-        birth_year = self._calculate_year(century, (estnin%10**10)//10**8)
-        birth_month = (estnin%10**8)//10**6
-        birth_day = (estnin%10**6)//10**4
+        century = estnin // 10**10
+        birth_year = self._calculate_year(century, (estnin % 10**10) // 10**8)
+        birth_month = (estnin % 10**8) // 10**6
+        birth_day = (estnin % 10**6) // 10**4
 
         return datetime.date(birth_year, birth_month, birth_day)
 
@@ -210,10 +217,10 @@ class estnin(object):
     @classmethod
     def _calculate_checksum(self, estnin):
         _estnin = str(estnin)
-        checksum = sum(int(k)*v for k, v in zip(_estnin, [1,2,3,4,5,6,7,8,9,1])) % 11
+        checksum = sum(int(k) * v for k, v in zip(_estnin, [1, 2, 3, 4, 5, 6, 7, 8, 9, 1])) % 11
 
         if checksum == 10:
-            checksum = sum(int(k)*v for k, v in zip(_estnin, [3,4,5,6,7,8,9,1,2,3])) % 11
+            checksum = sum(int(k) * v for k, v in zip(_estnin, [3, 4, 5, 6, 7, 8, 9, 1, 2, 3])) % 11
             checksum = 0 if checksum == 10 else checksum
 
         return checksum
