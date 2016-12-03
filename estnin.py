@@ -178,13 +178,13 @@ class estnin(object):
         if set_checksum:
             if not self.MIN // 10 * 10 <= estnin <= self.MAX // 10 * 10 + 9:
                 raise ValueError('value is out of range')
+
+            checksum = self._calculate_checksum(estnin)
+
         else:
             if not self.MIN <= estnin <= self.MAX:
                 raise ValueError('value is out of range')
 
-        if set_checksum:
-            checksum = self._calculate_checksum(estnin)
-        else:
             checksum = self._validate_checksum(estnin)
 
         return _estnin(
