@@ -10,7 +10,7 @@ test:
 clean:
 	python setup.py clean
 
-wheel:
+wheel: clean
 	python setup.py bdist_wheel --universal
 
 test-publish:
