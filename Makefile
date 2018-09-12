@@ -10,6 +10,9 @@ test:
 clean:
 	python setup.py clean
 
+wheel:
+	python setup.py bdist_wheel --universal
+
 test-publish:
 	python setup.py register -r pypitest
 	python setup.py bdist_wheel --universal upload -r pypitest
