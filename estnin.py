@@ -137,7 +137,7 @@ class estnin(object):
             value = estnin(self)
             self += 1
             return value
-        except ValueError as e:
+        except ValueError:
             raise StopIteration
 
     def __reversed__(self):
@@ -146,8 +146,8 @@ class estnin(object):
                 value = estnin(self)
                 self -= 1
                 yield value
-        except ValueError as e:
-            raise StopIteration
+        except ValueError:
+            return
 
     @classmethod
     def _validate_year(self, year):
