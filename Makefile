@@ -3,6 +3,10 @@
 init:
 	pip install -r requirements.txt
 
+tox:
+	# just to document that it is here
+	tox
+
 test:
 	# This runs all of the tests with coverage
 	python setup.py test
