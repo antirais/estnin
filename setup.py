@@ -55,7 +55,7 @@ setup(
     long_description        = README,
     test_suite              = 'tests',
     tests_require           = test_deps,
-    extras                  = {'test': test_deps},
+    extras_require          = {'test': test_deps},
     classifiers             = [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
