@@ -4,8 +4,8 @@ init:
 	pip install -r requirements.txt
 
 tox:
-	# just to document that it is here
-	tox
+	@# just to document that it is here
+	@tox
 
 test:
 	# This runs all of the tests with coverage
@@ -15,15 +15,15 @@ clean:
 	python setup.py clean
 
 wheel: clean
-	python setup.py bdist_wheel --universal
+	python setup.py dist
 
 test-publish:
 	python setup.py register -r pypitest
-	python setup.py bdist_wheel --universal upload -r pypitest
+	python setup.py bdist_wheel upload -r pypitest
 
 publish:
 	python setup.py register
-	python setup.py bdist_wheel --universal upload
+	python setup.py bdist_wheel upload
 
 .PHONY: docs
 docs:
