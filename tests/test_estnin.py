@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-import os
-import sys
 import pytest
-
-sys.path.insert(0, os.path.abspath('..'))
 
 from estnin import estnin
 from datetime import date
