@@ -31,6 +31,17 @@ class CleanCommand(Command):
     def run(self):
         os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info ./eggs')
 
+test_deps = [
+    'coverage',
+    'pytest',
+    'pytest-runner',
+    'pytest-cov'
+]
+
+extras = {
+    'test': test_deps,
+}
+
 setup(
     name                    = 'estnin',
     version                 = VERSION,
@@ -42,8 +53,9 @@ setup(
     author_email            = 'antirais@gmail.com',
     description             = 'library for handling Estonian national identity numbers',
     long_description        = README,
-    tests_require           = ['pytest', 'pytest-runner', 'pytest-cov'],
     test_suite              = 'tests',
+    tests_require           = test_deps,
+    extras                  = {'test': test_deps},
     classifiers             = [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
