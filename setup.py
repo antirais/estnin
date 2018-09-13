@@ -43,9 +43,8 @@ setup(
     author_email            = 'antirais@gmail.com',
     description             = 'library for handling Estonian national identity numbers',
     long_description        = README,
-    setup_requires          = ['pytest-runner'],
-    tests_require           = ['pytest'],
-    test_suite              = "tests",
+    tests_require           = ['pytest', 'pytest-runner', 'pytest_cov'],
+    test_suite              = 'tests',
     classifiers             = [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
