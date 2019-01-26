@@ -1,7 +1,11 @@
 .DEFAULT_GOAL := docs
 
-init:
+venv:
+	if [[ ! -d "venv" ]]; then python -m virtualenv venv; fi
+
+init: venv
 	pip install -r requirements.txt
+	pip install -e .
 
 tox:
 	@# just to document that it is here
