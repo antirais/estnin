@@ -15,6 +15,9 @@ test:
 	# This runs all of the tests with coverage
 	python setup.py test
 
+coverage: test
+	python -m http.server -d tests/coverage
+
 clean:
 	python setup.py clean
 
