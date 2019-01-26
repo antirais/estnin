@@ -35,4 +35,4 @@ publish:
 .PHONY: docs
 docs:
 	@cd docs && $(MAKE) --no-print-directory html
-	@echo "\033[96m\nBuild successful! Docs URL: file://$(PWD)/docs/_build/html/index.html\033[0m"
+	@echo -e "\033[96m\nBuild successful! Docs URL: file://$(PWD)/docs/_build/html/index.html\033[0m"
