@@ -34,7 +34,6 @@ class CleanCommand(Command):
 test_deps = [
     'coverage',
     'pytest',
-    'pytest-runner',
     'pytest-cov'
 ]
 
@@ -54,6 +53,7 @@ setup(
     description             = 'library for handling Estonian national identity numbers',
     long_description        = README,
     test_suite              = 'tests',
+    setup_requires          = ['pytest-runner'],
     tests_require           = test_deps,
     extras_require          = {'test': test_deps},
     classifiers             = [
