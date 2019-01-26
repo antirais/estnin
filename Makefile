@@ -25,12 +25,12 @@ wheel: clean
 	python setup.py dist
 
 test-publish:
-	python setup.py register -r pypitest
-	python setup.py bdist_wheel upload -r pypitest
+	# https://packaging.python.org/tutorials/packaging-projects/
+	twine check dist/*
+	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 publish:
-	python setup.py register
-	python setup.py bdist_wheel upload
+	twine upload dist/*
 
 .PHONY: docs
 docs:
