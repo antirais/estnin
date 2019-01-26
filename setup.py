@@ -57,11 +57,11 @@ setup(
     tests_require           = test_deps,
     extras_require          = {'test': test_deps},
     classifiers             = [
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
+        'Topic :: Software Development :: Libraries',
     ],
     cmdclass = {
         'clean': CleanCommand,
