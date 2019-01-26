@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+from datetime import datetime
 import sys
 
 def read_file(file_name):
@@ -34,7 +35,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'estnin'
-copyright = '2016, Anti Räis'
+copyright = '2016-%d, Anti Räis' % datetime.now().year
 author = 'Anti Räis'
 
 # The version info for the project you're documenting, acts as replacement for
